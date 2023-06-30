@@ -12,7 +12,7 @@ def create_huey():
     return huey
 
 def _configure_logger():
-    log_folder = os.getenv('HUEY_LOG_FOLDER')
+    log_folder = os.getenv('LOG_FOLDER')
     if log_folder is not None:
         log_file_name=os.path.join(log_folder, "huey_worker.log")
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s %(message)s')

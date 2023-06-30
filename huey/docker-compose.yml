@@ -10,7 +10,7 @@ services:
       replicas: 2
     environment:
       - REDIS_PASSWORD=$REDIS_PASSWORD
-      - HUEY_LOG_FOLDER=/data
+      - LOG_FOLDER=/data
     network_mode: host
     volumes:
       - /scripts:/scripts

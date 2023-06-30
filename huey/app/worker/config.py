@@ -16,8 +16,7 @@ def _configure_logger():
     if log_folder is not None:
         log_file_name=os.path.join(log_folder, "huey_worker.log")
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(name)s %(threadName)s %(message)s')
-        # use very short interval for this example, typical 'when' would be 'midnight' and no explicit interval
-        handler = TimedRotatingFileHandler(log_file_name, when="S", interval=30, backupCount=10)
+        handler = TimedRotatingFileHandler(log_file_name, when="midnight", backupCount=10)
         handler.setFormatter(formatter)
         logger = logging.getLogger('huey.consumer') #take logger and configure it
         logger.addHandler(handler)

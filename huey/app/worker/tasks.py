@@ -4,16 +4,18 @@ from subprocess import Popen, PIPE, STDOUT
 from typing import List
 from .config import huey
 from .utils import HueyWorkerException, exp_backoff_task
-import uuid
 
 
-def _script(script_name: str, args: List[str], check_exitcode: bool = True):
+def _script(script_name: str, args: List[str], check_exitcode: bool = True, task=None):
     logger = logging.getLogger('huey')  # take logger and configure it
     script_path = os.path.join('/scripts', script_name)
     commands = [script_path]
     commands.extend(args)
     command_string = ' '.join(commands)
-    command_uuid = uuid.uuid1()
+    if task is not None:
+        command_uuid = task.id
+    else:
+        command_uuid =  ""
     logger.info('[%s] [run commands] %s', command_uuid, command_string)
     process = Popen(commands, stdout=PIPE, stderr=STDOUT)
     with process.stdout:
@@ -26,21 +28,16 @@ def _script(script_name: str, args: List[str], check_exitcode: bool = True):
             f"script {command_string} return {exitcode}", exitcode)
 
 
-@huey.task()
-def add(a, b):
-    return a + b
-
-
 @exp_backoff_task(retries=5, retry_backoff=2)
-def script_backoff(script_name: str, args: List[str] = [], check_exitcode: bool = True):
-    _script(script_name, args, check_exitcode=check_exitcode)
+def script_backoff(script_name: str, args: List[str] = [], check_exitcode: bool = True, task=None):
+    _script(script_name, args, check_exitcode=check_exitcode, task=task)
 
 
-@huey.task(retries=2)
-def script_retry(script_name: str, args: List[str] = [], check_exitcode: bool = True):
-    _script(script_name, args, check_exitcode=check_exitcode)
+@huey.task(retries=2,context=True)
+def script_retry(script_name: str, args: List[str] = [], check_exitcode: bool = True, task=None):
+    _script(script_name, args, check_exitcode=check_exitcode, task=task)
 
 
-@huey.task()
-def script_run(script_name: str, args: List[str] = [], check_exitcode: bool = True):
-    _script(script_name, args, check_exitcode=check_exitcode)
+@huey.task(context=True)
+def script_run(script_name: str, args: List[str] = [], check_exitcode: bool = True, task=None):
+    _script(script_name, args, check_exitcode=check_exitcode, task=task)

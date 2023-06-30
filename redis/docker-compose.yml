@@ -5,11 +5,13 @@ services:
     image: redis:alpine
     command: redis-server --appendonly yes --loglevel warning --requirepass $REDIS_PASSWORD
     restart: always
-    ports:
-      - target: 6379
-        published: 6379
-        protocol: tcp
-        mode: host
+    expose:
+      - "6379"
+#    ports:
+#      - target: 6379
+#       published: 6379
+#        protocol: tcp
+#        mode: host
     volumes:
       - /data/redis:/data
     environment:

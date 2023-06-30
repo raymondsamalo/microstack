@@ -4,11 +4,8 @@ from huey import RedisHuey
 import os 
 
 def create_huey():
-    password = os.getenv('REDIS_PASSWORD')
-    if password is not None:
-        huey = RedisHuey('tasks', password=password)
-    else:
-        huey = RedisHuey('tasks')
+    url = os.getenv('REDIS_URL')
+    huey = RedisHuey('tasks', url=url)
     return huey
 
 def _configure_logger():

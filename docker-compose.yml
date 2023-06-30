@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+    redis:
+      extends:
+        file: redis/docker-compose.yml
+        service: redis
+    huey-worker:
+      extends:
+        file: huey/docker-compose.yml
+        service: huey-worker
+    huey-worker-periodic:
+      extends:
+        file: huey/docker-compose.yml
+        service: huey-worker-periodic

@@ -9,9 +9,9 @@ services:
       mode: replicated
       replicas: 2
     environment:
-      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - REDIS_URL=$REDIS_URL
       - LOG_FOLDER=/data
-    network_mode: host
+#    network_mode: host
     volumes:
       - /scripts:/scripts
       - /data/huey:/data
@@ -20,8 +20,8 @@ services:
     command: /worker.sh -w 1
     restart: always
     environment:
-      - REDIS_PASSWORD=$REDIS_PASSWORD
-    network_mode: host
+      - REDIS_URL=$REDIS_URL
+#    network_mode: host
     volumes:
       - /scripts:/scripts
       - /data/huey:/data

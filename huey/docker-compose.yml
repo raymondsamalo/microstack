@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  huey-worker:
+    image: microstack-huey:0.1
+    command: /worker.sh -w 10 --no-periodic
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 2
+    environment:
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+      - HUEY_LOG_FOLDER=/data
+    network_mode: host
+    volumes:
+      - /scripts:/scripts
+      - /data/huey:/data
+  huey-worker-periodic:
+    image: microstack-huey:0.1
+    command: /worker.sh -w 1
+    restart: always
+    environment:
+      - REDIS_PASSWORD=$REDIS_PASSWORD
+    network_mode: host
+    volumes:
+      - /scripts:/scripts
+      - /data/huey:/data
+ 

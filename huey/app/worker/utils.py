@@ -30,3 +30,8 @@ def run_path_task(path, *args, **kwargs):
     path, name = path.rsplit('.', 1)  # e.g. path.to.module.function
     mod = import_module(path)  # Dynamically import the module.
     return getattr(mod, name)(*args, **kwargs)  # Call the function.
+
+class HueyWorkerException(Exception):
+    def __init__(self, message, error_code):
+        self.message = message
+        self.error_code = error_code

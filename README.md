@@ -4,3 +4,6 @@ remove .env from production and use proper environment variables for storing pas
 # REDIS
 add  'vm.overcommit_memory = 1' to /etc/sysctl.conf 
 and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+
+# HUEY
+huey is configured to log to /data/huey folder and able to run any script in /scripts folder 

@@ -4,10 +4,11 @@ services:
   huey-worker:
     image: microstack-huey:0.1
     command: /worker.sh -w 10 --no-periodic
+    
     restart: always
     deploy:
       mode: replicated
-      replicas: 2
+      replicas: 1
     environment:
       - REDIS_URL=$REDIS_URL
       - LOG_FOLDER=/data
@@ -16,6 +17,7 @@ services:
       - /scripts:/scripts
       - /data/huey:/data
   huey-worker-periodic:
+    
     image: microstack-huey:0.1
     command: /worker.sh -w 1
     restart: always

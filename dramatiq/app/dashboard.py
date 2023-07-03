@@ -8,7 +8,7 @@ import dramatiq
 from dramatiq.brokers.redis import RedisBroker
 from dramatiq_dashboard import DashboardApp
 
-REDIS_URL = os.environ.get('REDIS_URL','redis://localhost:6379')
+REDIS_URL = os.environ.get('REDIS_URL')
 REDIS_QUEUES = os.environ.get('REDIS_QUEUES', 'default')
 REDIS_NAMESPACE = os.environ.get('REDIS_NAMESPACE', 'default')
 PORT = int(os.environ.get('PORT', 8080))
@@ -20,4 +20,4 @@ dramatiq.set_broker(broker)
 
 app = DashboardApp(broker=broker, prefix='')
 app = WSGIMiddleware(app)
-uvicorn.run(app, port=PORT)
+uvicorn.run(app, port=PORT, host="0.0.0.0")

@@ -5,6 +5,7 @@ services:
     image: redis:alpine
     command: redis-server --appendonly yes --loglevel warning --requirepass $REDIS_PASSWORD
     restart: always
+    
     expose:
       - "6379"
     ports:

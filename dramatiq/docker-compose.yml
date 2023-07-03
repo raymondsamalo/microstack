@@ -3,5 +3,27 @@ version: '3.8'
 services:
   dramatiq-dashboad:
     image: microstack-dramatiq:0.1
-    command: /app/dashboard.py 
+    command: ["/app/dashboard.py"] 
     restart: always
+    environment:
+      - REDIS_URL=$REDIS_URL
+    expose:
+      - "8080"
+    ports:
+      - target: 8080
+        published: 8080
+        protocol: tcp
+        mode: host
+  dramatiq-worker:
+    image: microstack-dramatiq:0.1
+    restart: always
+    deploy:
+      mode: replicated
+      replicas: 1
+    environment:
+      - REDIS_URL=$REDIS_URL
+      - LOG_FOLDER=/data
+#    network_mode: host
+    volumes:
+      - /scripts:/scripts
+      - /data/dramatiq:/data

@@ -9,7 +9,27 @@ services:
       extends:
         file: huey/docker-compose.yml
         service: huey-worker
+      depends_on:
+      - redis
     huey-worker-periodic:
       extends:
         file: huey/docker-compose.yml
         service: huey-worker-periodic
+      depends_on:
+      - redis
+    dramatiq-worker:
+      extends:
+        file: dramatiq/docker-compose.yml
+        service: dramatiq-worker
+      depends_on:
+      - redis
+      environment:
+      - REDIS_URL=redis://:test@redis:6379
+    dramatiq-dashboad:
+      extends:
+        file: dramatiq/docker-compose.yml
+        service: dramatiq-dashboad
+      depends_on:
+      - redis
+      environment:
+      - REDIS_URL=redis://:test@redis:6379

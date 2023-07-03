@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+    redis:
+      extends:
+        file: redis/docker-compose.yml
+        service: redis
+    dramatiq-dashboad:
+      extends:
+        file: dramatiq/docker-compose.yml
+        service: dramatiq-dashboad
+      depends_on:
+      - redis
+      environment:
+      - REDIS_URL=redis://:test@redis:6379

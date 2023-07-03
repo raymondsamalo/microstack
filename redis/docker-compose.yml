@@ -7,11 +7,11 @@ services:
     restart: always
     expose:
       - "6379"
-#    ports:
-#      - target: 6379
-#       published: 6379
-#        protocol: tcp
-#        mode: host
+    ports:
+      - target: 6379
+        published: 6379
+        protocol: tcp
+        mode: host
     volumes:
       - /data/redis:/data
     environment:

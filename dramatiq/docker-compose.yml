@@ -1,18 +1,7 @@
 version: '3.8'
 
 services:
-  dramatiq-worker:
+  dramatiq-dashboad:
     image: microstack-dramatiq:0.1
-    command: /worker.sh 
+    command: /app/dashboard.py 
     restart: always
-    deploy:
-      mode: replicated
-      replicas: 2
-    environment:
-      - REDIS_PASSWORD=$REDIS_PASSWORD
-      - LOG_FOLDER=/data
-    network_mode: host
-    volumes:
-      - /scripts:/scripts
-      - /data/dramatiq:/data
- 

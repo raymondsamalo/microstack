@@ -4,10 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-dramatiq = {version = "*", extras = ["redis", "watch"]}
 dramatiq-dashboard = "*"
 periodiq = "*"
-bjoern = "*"
+a2wsgi = "*"
+dramatiq = {version = "*", extras = ["redis", "watch"]}
+uvicorn = "*"
 
 [dev-packages]
 

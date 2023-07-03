@@ -1,4 +1,5 @@
 dramatiq[redis, watch]
 dramatiq-dashboard
-bjoern
+uvicorn
 periodiq
+a2wsgi

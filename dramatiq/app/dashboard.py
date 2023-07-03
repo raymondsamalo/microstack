@@ -1,16 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import os
 
-import bjoern
+import uvicorn
+from a2wsgi import WSGIMiddleware
+
 import dramatiq
 from dramatiq.brokers.redis import RedisBroker
 from dramatiq_dashboard import DashboardApp
 
-REDIS_URL = os.environ.get('REDIS_URL','redis://:test@localhost:6379')
+REDIS_URL = os.environ.get('REDIS_URL','redis://localhost:6379')
 REDIS_QUEUES = os.environ.get('REDIS_QUEUES', 'default')
 REDIS_NAMESPACE = os.environ.get('REDIS_NAMESPACE', 'default')
 PORT = int(os.environ.get('PORT', 8080))
-HOST = os.environ.get('HOST', '0.0.0.0')
 
 broker = RedisBroker(url=REDIS_URL, namespace=REDIS_NAMESPACE)
 for queue in REDIS_QUEUES.split(','):
@@ -18,5 +19,5 @@ for queue in REDIS_QUEUES.split(','):
 dramatiq.set_broker(broker)
 
 app = DashboardApp(broker=broker, prefix='')
-print(f'Starting @ http://{HOST}:{PORT}')
-bjoern.run(app, HOST, PORT)
+app = WSGIMiddleware(app)
+uvicorn.run(app, port=PORT)
